@@ -1,35 +1,37 @@
 import { useState } from "react";
 import "./index.css";
-
+import Main from "./components/Main";
+import Modal from "./components/Modal";
+import Button from "./components/Button";
 //Rus
-// 1. Создайте отдельные компоненты:
+// 1. Создайте отдельные компоненты: +++++++++++
 //    - Button: универсальный компонент кнопки.
 //    - Modal: универсальный компонент модального окна.
 //    - Main: компонент, представляющий основное содержимое приложения.
 
-// 2. Разместите файлы компонентов:
+// 2. Разместите файлы компонентов:+++++++++++++
 //    - Поместите компоненты Button, Modal и Main в отдельные файлы внутри папки src/components.
 
-// 3. Экспортируйте и импортируйте компоненты:
-//    - Экспортируйте Button, Modal и Main из их файлов.
-//    - Импортируйте эти компоненты в тех местах, где они используются.
+// 3. Экспортируйте и импортируйте компоненты: +++++++
+//    - Экспортируйте Button, Modal и Main из их файлов. +++++++++++
+//    - Импортируйте эти компоненты в тех местах, где они используются. +++++
 
-// 4. Создайте универсальный компонент Button:
+// 4. Создайте универсальный компонент Button: +++++++++++
 //    - Настройте компонент так, чтобы он:
 //      - Принимал проп `children` для отображения текста внутри кнопки.
 //      - Принимал проп для изменения CSS-класса кнопки:
 //          - Например, класс "button" для одной стилизации и "closeButton" для другой.
 //      - Позволял добавлять разные функции в `onClick` (например, для закрытия модального окна).
 
-// 5. Создайте универсальный компонент Modal:
+// 5. Создайте универсальный компонент Modal: ++++++++++
 //    - Настройте модальное окно с помощью следующих пропсов:
-//      - `title`: текст заголовка окна.
-//      - `content`: содержимое окна (текст или компоненты).
-//      - `showCloseButton`: флаг, который управляет отображением кнопки закрытия.
+//      - `title`: текст заголовка окна. ++++
+//      - `content`: содержимое окна (текст или компоненты).++++
+//      - `showCloseButton`: флаг, который управляет отображением кнопки закрытия.++++
 
-// 6. Создайте функцию в App:
-//    - Напишите функцию в компоненте App, которую можно передавать через пропсы в компонент Button.
-//    - Эта функция будет выполнять какое-либо действие, например, открывать или закрывать модальное окно.
+// 6. Создайте функцию в App:++++++++++++
+//    - Напишите функцию в компоненте App, которую можно передавать через пропсы в компонент Button.+++++++
+//    - Эта функция будет выполнять какое-либо действие, например, открывать или закрывать модальное окно.  ++++++++
 
 // 7. Избавьтесь от "prop drilling":
 //    - Используйте технику component composition, чтобы передавать данные и функции напрямую между компонентами.
@@ -77,40 +79,38 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="app">
-      <h1 className="title">Universal Modal Component</h1>
-      <button className="button" onClick={() => setIsModalOpen(true)}>
-        Open Modal
-      </button>
-
+    <Main isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
       {isModalOpen && (
-        <div className="overlay" onClick={() => setIsModalOpen(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button className="closeButton" onClick={() => setIsModalOpen(false)}>
-              &times;
-            </button>
-            <h2 className="modalHeader">Confirm Your Action</h2>
-            <div className="modalBody">
-              Are you sure you want to proceed? This action cannot be undone.
-            </div>
-            <div className="modalFooter">
-              <button onClick={() => setIsModalOpen(false)} className="secondaryButton">
-                Cancel
-              </button>
-              <button
-                className="primaryButton"
-                onClick={() => {
-                  alert("Ok");
-                  setIsModalOpen(false);
-                }}
-              >
-                Yes, Continue
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          setIsModalOpen={setIsModalOpen}
+          title="Confirm Your Action"
+          content="Are you sure you want to proceed? This action cannot be undone."
+          showCloseButton
+        >
+          <Button
+            variant="closeButton"
+            handleClick={() => setIsModalOpen(false)}
+          >
+            &times;
+          </Button>
+          <Button
+            variant="secondaryButton"
+            handleClick={() => setIsModalOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primaryButton"
+            handleClick={() => {
+              alert("Ok");
+              setIsModalOpen(false);
+            }}
+          >
+            Yes, Continue
+          </Button>
+        </Modal>
       )}
-    </div>
+    </Main>
   );
 }
 
